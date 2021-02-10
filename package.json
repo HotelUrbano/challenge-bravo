@@ -1,0 +1,27 @@
+{
+  "name": "challenge-bravo",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "test": "jest --coverage --silent",
+    "pretest": "yarn sequelize db:migrate:undo:all --env test && yarn sequelize db:migrate --env test && yarn sequelize db:seed:all --env test"
+    
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "axios": "^0.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1",
+    "sequelize-cli": "^6.2.0"
+  },
+  "repository": "git@github.com:glauco-foeppel/challenge-bravo.git",
+  "author": "Glauco Foeppel <glauco.tf@gmail.com>"
+}
