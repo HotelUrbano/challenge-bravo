@@ -1,0 +1,43 @@
+version: "3"
+
+services: 
+  app_bravo:
+    build: .
+    ports: 
+      - 3333:3333
+    links: 
+      - mongodb
+      - redis
+    depends_on: 
+      - mongodb
+      - redis
+  
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports: 
+      - 27017:27017
+    restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    ports: 
+      - 6379:6379
+    restart: always
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./docker_data/prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: always
+    ports: 
+      - 9090:9090
+    links: 
+      - app_bravo

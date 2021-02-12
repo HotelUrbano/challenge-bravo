@@ -1,0 +1,31 @@
+{
+  "name": "hurb-bravo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ioredis": "^4.19.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.14",
+    "prom-client": "^13.1.0"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
+    "jest": "^26.6.3",
+    "redis-mock": "^0.56.3",
+    "supertest": "^6.1.3"
+  }
+}
