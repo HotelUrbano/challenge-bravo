@@ -1,0 +1,14 @@
+version: "3.2"
+
+services:
+  challenge-bravo-1:
+    build: ./
+    restart: always
+    ports:
+      - "8082:8082"
+    networks:
+      back:
+        aliases:
+          - "challenge-bravo-1.service.com.br"
+networks:
+  back:
