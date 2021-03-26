@@ -1,65 +1,95 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Bravo
+# Bravo Challenge
 
-Construa uma API, que responda JSON, para conversão monetária. Ela deve ter uma moeda de lastro (USD) e fazer conversões entre diferentes moedas com cotações de verdade e atuais.
+We solved the challenge of obtaining quotes for Fiduciary and Crypto coins, using 2 API's
 
-A API deve, originalmente, converter entre as seguintes moedas:
+- **Coinmarketcap**
+- **Data fixer io**
 
--   USD
--   BRL
--   EUR
--   BTC
--   ETH
+Both provide a "Free" plan with real-time updates, with limited requests / day. As this is a challenge, it was programmed to obtain data updates every 2 hours. All data is saved in a cloud database, which in production will be used for quotation prediction. Quality USD based quotes were not found, **Data Fixer io** provides EUR based data but we convert this data to USD base before saving to the database.
 
-Ex: USD para BRL, USD para BTC, ETH para BRL, etc...
+The api's charge per requisition and part of the challenge was to be able to handle 1000 requisitions per minute, we saved the data of the currencies in the bank and provided the requisitions with the last quotation obtained, and in a future Feature the functionality of Currency History.
 
-A requisição deve receber como parâmetros: A moeda de origem, o valor a ser convertido e a moeda final.
+In the bank that is in the cloud, we have already registered the base coins of the challenge. <br>
+To run the unit tests, you must run the script to register them
 
-Ex: `?from=BTC&to=EUR&amount=123.45`
+### EndPoints :
 
-Construa também um endpoint para adicionar e remover moedas suportadas pela API, usando os verbos HTTP.
+- Registration of new currencies <br>
+  method: PUT => **_/update?add=LTH_**
+- Coin removal <br>
+  method: DELETE => **_/update?add=LTH_**
 
-Você pode usar qualquer linguagem de programação para o desafio. Abaixo a lista de linguagens que nós aqui do HU temos mais afinidade:
+### Instructions
 
--   JavaScript (NodeJS)
--   Python
--   Go
--   Ruby
--   C++
--   PHP
+- In your shell. Download the repostorio:
 
-## Requisitos
+```
+git clone https://github.com/AurelioMarquesVulcao/challenge-bravo.git
+```
 
--   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github, faça todo desafio na branch **master** e não se esqueça de preencher o arquivo `pull-request.txt`. Tão logo termine seu desenvolvimento, adicione como colaborador o usuário `automator-hurb` no seu repositório e o deixe disponível por pelo menos 30 dias. **Não adicione o `automator-hurb` antes do término do desenvolvimento.**
-    -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
--   O código precisa rodar em macOS ou Ubuntu (preferencialmente como container Docker)
--   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
-    -   git clone \$seu-fork
-    -   cd \$seu-fork
-    -   comando para instalar dependências
-    -   comando para executar a aplicação
--   A API pode ser escrita com ou sem a ajuda de _frameworks_
-    -   Se optar por usar um _framework_ que resulte em _boilerplate code_, assinale no README qual pedaço de código foi escrito por você. Quanto mais código feito por você, mais conteúdo teremos para avaliar.
--   A API precisa suportar um volume de 1000 requisições por segundo em um teste de estresse.
+- Enter the folder
 
-## Critério de avaliação
+```
+cd challenge-bravo
+```
 
--   **Organização do código**: Separação de módulos, view e model, back-end e front-end
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara?
--   **Cobertura de testes** (Não esperamos cobertura completa)
--   **Histórico de commits** (estrutura e qualidade)
--   **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
--   **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
+- Turn on the application
 
-## Dúvidas
+```
+docker-compose up -d
+```
 
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-bravo/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
-
-Boa sorte e boa viagem! ;)
+<h2> Everything is working!</h2>
 
 <p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
+  <img src="yes.png" alt="yes" />
+</p>
+
+<br><br>
+
+### Unitary tests
+
+It will connect to the local bank started when docking UP
+
+- Enter the folder
+
+```
+  cd app
+```
+
+- Install the dependencies
+
+```
+npm i
+```
+
+- Connect the application outside the docker
+
+```
+node services/getCoins/index.js
+node server.js
+```
+
+- Run the unit test
+
+```
+npm test
+```
+
+- Make requests at Postman
+
+**_http://localhost:1234/coin/?from=BTC&to=USD&amount=10_** <br>
+
+**_http://localhost:1234/update?add=LTH_** <br>
+
+**_http://localhost:1234/update?add=LTH_**
+
+### Final considerations
+
+I made the .env files available in order to facilitate the configurations. but we have a templete .env file as well. <br>
+In the docker we use pm2 so that if the application crashes it is restarted. <br> <br>
+May the force be with you Padwan
+
+<p align="center">
+  <img src="master.jpeg" alt="may the force be with you" />
 </p>
