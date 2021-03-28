@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    ports:
+      - "6379:6379"
+
+  mongo-currency:
+    container_name: mongo-currency
+    image: "mongo:3.4-jessie"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./offline-data/mongodb:/data/db
+
+  api:
+    container_name: api
+    command: npm run dev
+    build:
+      context: .
+    volumes:
+      - .:/api
+    links:
+      - mongo-currency:mongo-currency
+    ports:
+      - 3000:3000
+      - 9229:9229
+    environment:
+      MONGODB_ENDPOINT: "mongodb://mongo-currency:27017/currencies"
+    depends_on:
+      - redis
+      - mongo-currency
