@@ -1,0 +1,37 @@
+[
+{
+    "model":"api.Moedas",
+    "pk":1,
+    "fields":{
+        "simbolo":"BRL"
+    }
+},
+{
+    "model":"api.Moedas",
+    "pk":2,
+    "fields":{
+        "simbolo":"USD"
+    }
+},
+{
+    "model":"api.Moedas",
+    "pk":3,
+    "fields":{
+        "simbolo":"EUR"
+    }
+},
+{
+    "model":"api.Moedas",
+    "pk":4,
+    "fields":{
+        "simbolo":"BTC"
+    }
+},
+{
+    "model":"api.Moedas",
+    "pk":5,
+    "fields":{
+        "simbolo":"ETH"
+    }
+}
+]
