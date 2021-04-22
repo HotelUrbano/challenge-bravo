@@ -1,65 +1,198 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Bravo
+# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Hurb - Challenge Bravo
 
-Construa uma API, que responda JSON, para conversão monetária. Ela deve ter uma moeda de lastro (USD) e fazer conversões entre diferentes moedas com cotações de verdade e atuais.
+## Indíce
+* [Sobre](#about)
+* [Requisitos](#requirements)
+* [Docker Setup](#docker-setup)
+* [Setup](#setup)
+* [Funcionamento](#work)
+    * [Converter Moeda](#work-currency-convert)
+    * [Login](#work-login)
+    * [Adicionar Moeda](#work-currency-add)
+    * [Remover Moeda](#work-currency-remove)
+* [Comandos NPM](#npm-commands)
+* [Estrutura do Projeto](#filesystem)
+* [Endpoints](#endpoints)
+* [Teste de Estresse](#stress-test)
+* [Informações Adicionais](#details)
 
-A API deve, originalmente, converter entre as seguintes moedas:
+<a name="about"></a>
+## Sobre
+---
+Este projeto foi criado através do desafio proposto pelo hurb, seu objetivo é fazer conversão monetária entre duas moedas.
 
--   USD
--   BRL
--   EUR
--   BTC
--   ETH
+Moedas iniciais suportadas:
+- USD
+- BRL
+- EUR
+- BTC
+- ETH
 
-Ex: USD para BRL, USD para BTC, ETH para BRL, etc...
-
-A requisição deve receber como parâmetros: A moeda de origem, o valor a ser convertido e a moeda final.
-
-Ex: `?from=BTC&to=EUR&amount=123.45`
-
-Construa também um endpoint para adicionar e remover moedas suportadas pela API, usando os verbos HTTP.
-
-Você pode usar qualquer linguagem de programação para o desafio. Abaixo a lista de linguagens que nós aqui do HU temos mais afinidade:
-
--   JavaScript (NodeJS)
--   Python
--   Go
--   Ruby
--   C++
--   PHP
-
+<a name="requirements"></a>
 ## Requisitos
+---
+- Node 13 ou mais recente
+- npm
+- mongo
+- [docker-compose](https://docs.docker.com/compose/install) (caso use container)
 
--   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github, faça todo desafio na branch **master** e não se esqueça de preencher o arquivo `pull-request.txt`. Tão logo termine seu desenvolvimento, adicione como colaborador o usuário `automator-hurb` no seu repositório e o deixe disponível por pelo menos 30 dias. **Não adicione o `automator-hurb` antes do término do desenvolvimento.**
-    -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
--   O código precisa rodar em macOS ou Ubuntu (preferencialmente como container Docker)
--   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
-    -   git clone \$seu-fork
-    -   cd \$seu-fork
-    -   comando para instalar dependências
-    -   comando para executar a aplicação
--   A API pode ser escrita com ou sem a ajuda de _frameworks_
-    -   Se optar por usar um _framework_ que resulte em _boilerplate code_, assinale no README qual pedaço de código foi escrito por você. Quanto mais código feito por você, mais conteúdo teremos para avaliar.
--   A API precisa suportar um volume de 1000 requisições por segundo em um teste de estresse.
+<a name="docker-setup"></a>
+## Docker Setup
+---
 
-## Critério de avaliação
+Suba o container:
+```sh
+npm run docker
+```
 
--   **Organização do código**: Separação de módulos, view e model, back-end e front-end
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara?
--   **Cobertura de testes** (Não esperamos cobertura completa)
--   **Histórico de commits** (estrutura e qualidade)
--   **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
--   **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
+Configure o banco:
+```sh
+docker-compose exec node npm run migrate
+```
 
-## Dúvidas
+Configure o arquivo .env com base no .env.example (opcional).
 
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-bravo/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
+<sub>Ao alterar o arquivo .env, será necessário reinicar a aplicação.</sub>
+```sh
+docker-compose restart node
+```
 
-Boa sorte e boa viagem! ;)
+A aplicação estará disponível no endereço: http://localhost:8000.
 
-<p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
-</p>
+<a name="setup"></a>
+## Setup
+---
+Crie e configure o arquivo .env com base no .env.example:
+```sh
+cp .env.example .env && nano .env
+```
+
+Instale as dependências:
+```sh 
+npm i
+```
+
+Configure o banco:
+```sh
+npm run migrate
+```
+
+Inicie a aplicação:
+```sh
+npm start
+```
+
+A aplicação estará disponível no endereço: http://localhost:8000.
+
+<a name="work"></a>
+## Funcionamento
+---
+<a name="work-currency-convert"></a>
+### Converter Moeda
+Requisição para realizar a conversão entre 2 moedas:
+- **from**: Moeda de origem.
+- **to**: Moeda para qual o valor será convertido.
+- **amount**: Valor da moeda de origem que será convertido.
+```sh
+curl 'http://localhost:8000/currencies?from=USD&to=BRL&amount=30'
+```
+
+<a name="work-login"></a>
+### Login
+Requisição para obter um token de acesso que permite usar as rotas para adicionar e remover moedas:
+- **username**: usuário cadastrado no banco (padrão do .env.example é: **admin**).
+- **password**: senha do usuário (padrão do .env.example é: **HuRbCh4113ng3#bR4v0**).
+
+<sub>OBS.: Se alguma dessas informações for mudada no .env, será necessário mudar na requisição também.</sub>
+```sh
+curl 'http://localhost:8000/login' -d 'username=admin&password=HuRbCh4113ng3#bR4v0'
+```
+
+<a name="work-currency-add"></a>
+### Adicionar Moeda
+Requisição para adicionar moeda:
+- **currency**: Moeda a ser adicionada.
+- **usd_value**: Valor da moeda equivalente a 1 dólar americano (USD).
+- **{token}**: Token gerado no endpoint /login.
+```sh
+curl 'http://localhost:8000/currencies' -X 'POST' -d 'currency=CAD&usd_value=1.26' -H 'Authorization: Bearer {token}'
+```
+
+<a name="work-currency-remove"></a>
+### Remover Moeda
+Requisição para remover moeda:
+- **{currency}**: Código da moeda a ser removida.
+- **{token}**: Token gerado no endpoint /login.
+```sh
+curl 'http://localhost:8000/currencies/{currency}' -X 'DELETE' -H 'Authorization: Bearer {token}'
+```
+
+<a name="npm-commands"></a>
+## Comandos NPM
+---
+Rodar testes:
+```sh
+npm test
+```
+
+Iniciar projeto:
+```sh
+npm start
+```
+
+Configurar/Limpar banco (com as taxas de câmbio atualizadas):
+```sh
+npm run migrate
+```
+
+Iniciar container:
+```sh
+npm run docker
+```
+
+<a name="filesystem"></a>
+## Estrutura do Projeto
+---
+```
+├── database - Arquivos de banco de dados.
+│
+├── src - Arquivos do sistema.
+│   ├── controllers - Controladores do sistema.
+│   ├── middlewares - Middlewares do sistema.
+│   ├── models - Modelos do sistema.
+│   ├── routes - Rotas do sistema.
+│   └── services - Classes de serviços para auxiliar na lógica extra.
+│
+├── sync - Arquivos de sincronização.
+|
+├── tests - Testes do sistema.
+│   ├── API - Testes dos endpoints da API.
+│   └── Unit - Testes unitários com componentes do sistema.
+```
+
+<a name="endpoints"></a>
+## Endpoints
+---
+```
+GET /docs (HTML)
+POST /login
+GET /currencies
+POST /currencies
+DELETE /currencies/{currency}
+```
+
+<a name="stress-test"></a>
+## Teste de Estresse
+---
+<img src="./stress-test.jpg" alt="stress test" />
+
+<a name="details"></a>
+## Informações adicionais
+---
+
+#### A atualização das taxas de câmbio está acontecendo de hora em hora. Não é possível aumentar, pois a API utilizada para consulta é gratuita, e só disponibiliza 1000 requisições por mês. O cálculo feito foi: 1000/31 = 32 requisições por dia (arredondando pra baixo), então 24 requisições por dia seria um número seguro.
+
+---
+
+#### O sistema de autenticação está usando JWT (Json Web Token), os tokens gerados na rota /login tem um prazo de expiração de 5 horas por padrão.
+---
