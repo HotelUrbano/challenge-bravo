@@ -1,0 +1,14 @@
+FROM node:14.15.1-alpine
+
+WORKDIR /usr/app
+
+COPY package*.json .babelrc .env ./
+RUN npm i
+
+COPY ./src ./src
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+EXPOSE 3030
+
+CMD /wait && npm run seed && npm run dev

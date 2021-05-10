@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  bravo_api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.development
+    depends_on: 
+      - mongo
+      - redis-server
+    restart: always
+    ports:
+      - 3030:3030
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    environment:
+      WAIT_HOSTS: mongo:27017
+    networks:
+      - bravo
+
+  mongo:
+    container_name: mongodb
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    command: mongod --quiet --logpath /dev/null
+    networks:
+      - bravo
+
+  redis-server:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    networks:
+      - bravo
+
+networks:
+  bravo:
