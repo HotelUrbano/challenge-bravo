@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  bravo-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+    depends_on:
+      - bravo-db
+
+  bravo-db:
+    image: mongo:4.2.9
+    command: mongod --port 27117
+    ports:
+        - 27117:27117
+    networks:
+      - app-network
+
+  bravo-db-migration:
+    build:
+      context: .
+      dockerfile: Dockerfile.migration
+    environment:
+      MONGODB_URI_ARG: "mongodb://bravo-db:27117/bravo"
+    networks:
+      - app-network
+    depends_on:
+      - bravo-db
+
+networks:
+  app-network:
+    driver: bridge
