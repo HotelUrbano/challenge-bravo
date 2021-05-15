@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "date-fns": "^2.21.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "pg": "^7.8.0",
+    "sequelize": "^6.6.2",
+    "swagger-ui-express": "^4.1.6",
+    "utf8": "^3.0.0"
+  },
+  "scripts": {
+    "prestart": "sequelize db:migrate",
+    "start": "node src/server.js",
+    "build": "build",
+    "pretest": "sequelize db:migrate",
+    "test": "jest",
+    "swagger": "node swagger.js",
+    "posttest": " sequelize db:migrate:undo:all",
+    "predev": "sequelize db:migrate",
+    "dev": "nodemon swagger.js --ignore swagger.json",
+    "postdev": "sequelize db:migrate:undo:all"
+  },
+  "devDependencies": {
+    "jest": "^24.1.0",
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.3",
+    "swagger-autogen": "^2.6.3"
+  }
+}
