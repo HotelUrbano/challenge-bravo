@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+        - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - pgdata:/data/postgres
+    networks:
+      - app-network
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    networks:
+      - app-network
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/usr/src/node-app
+      - node_modules:/usr/src/node-app/node_modules
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+  node_modules:
