@@ -1,0 +1,47 @@
+29/05/2021 03:54:09 ------------------------------------------------ 
+/var/www/html/class/Currency.class.php -> Moeda TESTE não encontrada.
+[{"file":"\/var\/www\/html\/class\/Api.class.php","line":73,"function":"getCurrency","class":"Currency","type":"-\u003E","args":["TESTE"]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":19,"function":"removeCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["removeCurrency"]}]
+
+29/05/2021 03:54:09 ------------------------------------------------ 
+/var/www/html/trait/Request.trait.php -> Formato inválido. Ex.: {"name": "BTC", "amount": 39006.37}
+[{"file":"\/var\/www\/html\/trait\/Request.trait.php","line":40,"function":"requestValidateAddCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":18,"function":"requestValidate","class":"Api","type":"-\u003E","args":["addCurrency"]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["addCurrency"]}]
+
+29/05/2021 03:54:09 ------------------------------------------------ 
+/var/www/html/class/Currency.class.php -> TESTE já existe.
+[{"file":"\/var\/www\/html\/class\/Currency.class.php","line":126,"function":"validateDuplicateName","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":58,"function":"save","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":19,"function":"addCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["addCurrency"]}]
+
+29/05/2021 03:54:09 ------------------------------------------------ 
+/var/www/html/trait/Request.trait.php -> Formato inválido. Ex.: ?from=BTC&to=EUR&amount=123.45
+[{"file":"\/var\/www\/html\/trait\/Request.trait.php","line":40,"function":"requestValidateConvertCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":18,"function":"requestValidate","class":"Api","type":"-\u003E","args":["convertCurrency"]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["convertCurrency"]}]
+
+26/05/2021 06:19:52 ------------------------------------------------ 
+/var/www/html/trait/Request.trait.php -> Formato inválido. Ex.: ?from=BTC&to=EUR&amount=123.45
+[{"file":"\/var\/www\/html\/trait\/Request.trait.php","line":40,"function":"requestValidateConvertCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":23,"function":"requestValidate","class":"Api","type":"-\u003E","args":["convertCurrency"]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["convertCurrency"]}]
+
+26/05/2021 06:19:32 ------------------------------------------------ 
+/var/www/html/trait/Request.trait.php -> Formato inválido. Ex.: ?from=BTC&to=EUR&amount=123.45
+[{"file":"\/var\/www\/html\/trait\/Request.trait.php","line":40,"function":"requestValidateConvertCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":23,"function":"requestValidate","class":"Api","type":"-\u003E","args":["convertCurrency"]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["convertCurrency"]}]
+
+26/05/2021 04:01:45 ------------------------------------------------ 
+/var/www/html/class/Currency.class.php -> BTXX já existe.
+[{"file":"\/var\/www\/html\/class\/Currency.class.php","line":126,"function":"validateDuplicateName","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":63,"function":"save","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":24,"function":"addCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["addCurrency"]}]
+
+26/05/2021 03:20:50 ------------------------------------------------ 
+/var/www/html/class/Currency.class.php -> Moeda BTXX não encontrada.
+[{"file":"\/var\/www\/html\/class\/Api.class.php","line":78,"function":"getCurrency","class":"Currency","type":"-\u003E","args":["BTXX"]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":24,"function":"removeCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["removeCurrency"]}]
+
+26/05/2021 03:19:49 ------------------------------------------------ 
+/var/www/html/class/Currency.class.php -> BTXX já existe.
+[{"file":"\/var\/www\/html\/class\/Currency.class.php","line":127,"function":"validateDuplicateName","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":63,"function":"save","class":"Currency","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/class\/Api.class.php","line":24,"function":"addCurrency","class":"Api","type":"-\u003E","args":[]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["addCurrency"]}]
+
+26/05/2021 03:10:52 ------------------------------------------------ 
+/var/www/html/trait/Request.trait.php -> O método requestValidateAdd deve ser implementado na trait Request.trait.php
+[{"file":"\/var\/www\/html\/class\/Api.class.php","line":23,"function":"requestValidate","class":"Api","type":"-\u003E","args":["add"]},{"file":"\/var\/www\/html\/index.php","line":31,"function":"__construct","class":"Api","type":"-\u003E","args":["add"]}]
+
+25/05/2021 06:11:19 ------------------------------------------------ 
+/var/www/html/class/Quotation.class.php -> Formato inválido, o atributo amount deve conter um valor numérico maior que zero.
+[{"file":"\/var\/www\/html\/index.php","line":13,"function":"convert","class":"Quotation","type":"-\u003E","args":[null]}]
+
+25/05/2021 03:56:58 ------------------------------------------------ 
+/var/www/html/class/Quotation.class.php -> D&D não encontrado.
+[{"file":"\/var\/www\/html\/index.php","line":17,"function":"remove","class":"Quotation","type":"-\u003E","args":[null]}]
