@@ -1,0 +1,11 @@
+Flask
+redis
+python-dotenv
+requests
+pytest
+coverage
+tox
+pytest-mock
+pytest-cov
+mock
+waitress
