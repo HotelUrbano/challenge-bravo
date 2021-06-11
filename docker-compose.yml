@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  postgres_currency:
+    image: postgres
+    container_name: postgres_currency
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=currency
+      - POSTGRES_DB=currency_exchange
+    volumes:
+      - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: challenge_bravo
+    ports:
+      - 3333:3333
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - postgres_currency
+    depends_on:
+      - postgres_currency
+
+volumes:
+  pgdata:
