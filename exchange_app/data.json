@@ -1,0 +1,62 @@
+[
+    {
+        "model": "rest_api.Currency",
+        "pk": 1,
+        "fields": {
+            "symbolAlias": "USD",
+            "nameDescription": "Dólar",
+            "baseUsdValue": "1.0000",
+            "typeCurrency": 1,
+            "lastUpdateDate": "2021-06-24 10:17:46",
+            "quotationDate": "2021-06-24 21:00:01"
+        }
+    },
+    {
+        "model": "rest_api.Currency",
+        "pk": 2,
+        "fields": {
+            "symbolAlias": "BRL",
+            "nameDescription": "Real",
+            "baseUsdValue": "4.9800",
+            "typeCurrency": 1,
+            "lastUpdateDate": "2021-06-24 10:17:46",
+            "quotationDate": "2021-06-24 21:00:01"
+        }
+    },
+    {
+        "model": "rest_api.Currency",
+        "pk": 3,
+        "fields": {
+            "symbolAlias": "EUR",
+            "nameDescription": "Euro",
+            "baseUsdValue": "1.1900",
+            "typeCurrency": 1,
+            "lastUpdateDate": "2021-06-24 10:17:46",
+            "quotationDate": "2021-06-24 21:00:01"
+        }
+    },
+    {
+        "model": "rest_api.Currency",
+        "pk": 4,
+        "fields": {
+            "symbolAlias": "BTC",
+            "nameDescription": "BitCoin",
+            "baseUsdValue": "33299.9000",
+            "typeCurrency": 1,
+            "lastUpdateDate": "2021-06-24 10:17:46",
+            "quotationDate": "2021-06-24 21:00:01"
+        }
+    },
+    {
+        "model": "rest_api.Currency",
+        "pk": 5,
+        "fields": {
+            "symbolAlias": "ETH",
+            "nameDescription": "Ethereum",
+            "baseUsdValue": "1939.6800",
+            "typeCurrency": 1,
+            "lastUpdateDate": "2021-06-24 10:17:46",
+            "quotationDate": "2021-06-24 21:00:01"
+        }
+    }
+]
