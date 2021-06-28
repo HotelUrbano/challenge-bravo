@@ -1,77 +1,143 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Bravo
 
-Construa uma API, que responda JSON, para conversão monetária. Ela deve ter uma moeda de lastro (USD) e fazer conversões entre diferentes moedas com cotações de verdade e atuais.
+# API-CONVERSAO
 
-A API deve, originalmente, converter entre as seguintes moedas:
+A API realiza conversão de moedas se baseando na cotação do dia. 
+A cotação é buscada na api pública https://github.com/fawazahmed0/currency-api
 
--   USD
--   BRL
--   EUR
--   BTC
--   ETH
+A API permite fazer CRUD de moedas, podendo registrar moedas fictícias atribuindo a elas 
+a referência de uma moeda existente como lastro.
 
-Ex: USD para BRL, USD para BTC, ETH para BRL, etc...
+## Tecnologias Utilizadas
 
-A requisição deve receber como parâmetros: A moeda de origem, o valor a ser convertido e a moeda final.
+- **PHP** 
+- **MYSQL** 
+- **LUMEN** 
+- **DOCKER**
 
-Ex: `?from=BTC&to=EUR&amount=123.45`
+## Inicializar API
 
-Construa também um endpoint para adicionar e remover moedas suportadas pela API, usando os verbos HTTP.
+Esta API roda em DOCKER. Para levantar o container
 
-A API deve suportar conversão entre moedas verídicas e fictícias. Exemplo: BRL->HURB, HURB->ETH
+```bash
+docker-compose up -d --build
+```
 
-"Moeda é o meio pelo qual são efetuadas as transações monetárias." (Wikipedia, 2021).
+Instale as dependências
 
-Sendo assim, é possível imaginar que novas moedas passem a existir ou deixem de existir, é possível também imaginar moedas fictícias como as de D&D sendo utilizadas nestas transações, como por exemplo quanto vale uma Peça de Ouro (D&D) em Real ou quanto vale a GTA$ 1 em Real.
+```bash
+composer install
+```
 
-Vamos considerar a cotação da PSN onde GTA$ 1.250.000,00 custam R$ 83,50 claramente temos uma relação entre as moedas, logo é possível criar uma cotação. (Playstation Store, 2021).
+Crie um arquivo .env
 
-Ref: 
-Wikipedia [Site Institucional]. Disponível em: <https://pt.wikipedia.org/wiki/Moeda>. Acesso em: 28 abril 2021.
-Playstation Store [Loja Virtual]. Disponível em: <https://store.playstation.com/pt-br/product/UP1004-CUSA00419_00-GTAVCASHPACK000D>. Acesso em: 28 abril 2021.
+```bash  
+cp .env.example .env  
+```
 
-Você pode usar qualquer linguagem de programação para o desafio. Abaixo a lista de linguagens que nós aqui do HU temos mais afinidade:
+Por padrão no arquivo .env na variável `DB_DATABASE` o banco de dados recebe o nome de `api_conversao`, 
+é necessário criar um banco de dados com o nome que está atribuído nesta variável de ambiente
 
--   JavaScript (NodeJS)
--   Python
--   Go
--   Ruby
--   C++
--   PHP
+Após criar o banco de dados rodar o comando 
 
-## Requisitos
+```bash
+php artisan migrate
+```
 
--   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github, faça todo desafio na branch **master** e não se esqueça de preencher o arquivo `pull-request.txt`. Tão logo termine seu desenvolvimento, adicione como colaborador o usuário `automator-hurb` no seu repositório e o deixe disponível por pelo menos 30 dias. **Não adicione o `automator-hurb` antes do término do desenvolvimento.**
-    -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
--   O código precisa rodar em macOS ou Ubuntu (preferencialmente como container Docker)
--   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
-    -   git clone \$seu-fork
-    -   cd \$seu-fork
-    -   comando para instalar dependências
-    -   comando para executar a aplicação
--   A API pode ser escrita com ou sem a ajuda de _frameworks_
-    -   Se optar por usar um _framework_ que resulte em _boilerplate code_, assinale no README qual pedaço de código foi escrito por você. Quanto mais código feito por você, mais conteúdo teremos para avaliar.
--   A API precisa suportar um volume de 1000 requisições por segundo em um teste de estresse.
+A API estará rodando na endereço `http://localhost:8080`
 
-## Critério de avaliação
+Para executar os testes, rodar o comando:
 
--   **Organização do código**: Separação de módulos, view e model, back-end e front-end
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara?
--   **Cobertura de testes** (Não esperamos cobertura completa)
--   **Histórico de commits** (estrutura e qualidade)
--   **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
--   **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
+```bash
+vendor/bin/phpunit
+```
+  
+## CRUD De Moedas
 
-## Dúvidas
+#### Lista todas as moedas
 
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-bravo/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
+```http
+GET /api/currency
+```
 
-Boa sorte e boa viagem! ;)
+#### Cria uma moeda
 
-<p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
-</p>
+```http
+POST /api/currency
+```
+
+| Body | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nome`      | `string` | **Obrigatório**. Nome da moeda |
+| `lastro`      | `string` | **Opcional**. Lastro para referência de moedas fictícias |
+
+
+#### Lista uma moeda
+
+```http
+GET /api/currency/{nome}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nome`      | `string` | **Obrigatório**. Nome da moeda |
+
+
+#### Edita uma moeda
+
+```http
+PATCH /api/currency/{nome}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nome`      | `string` | **Obrigatório**. Nome da moeda |
+
+| Body | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nome`      | `string` | **Opcional**. Nome da moeda |
+| `lastro`      | `string` | **Opcional**. Lastro para referência de moedas fictícias |
+
+
+#### Remove uma moeda
+
+```http
+DELETE /api/currency/{nome}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `nome`      | `string` | **Obrigatório**. Nome da moeda |
+
+
+## Conversão De Moedas
+
+Converter valor de uma moeda para outra
+```http
+GET /api/currency/conversion?to=USD&from=BRL&amount=150.50
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `to`      | `string` | **Obrigatório**. Moeda de origem |
+| `from`      | `string` | **Obrigatório**. Moeda para o valor convertido |
+| `amount`      | `float` | **Obrigatório**. Valor a ser convertido |
+
+
+## Autoria
+
+Como foi utilizado o micro-framework LUMEN, essa é a listagens de arquivos que 
+são de minha autoria:
+- Arquivos do Docker
+- Classes de Repositories
+- Classes de Requests
+- Classes BaseController, MoedaController de Controllers
+- Classe MoedaService de Service
+- Trait UuidTrait em Models/Traits
+
+Apesar de alguns arquivos fazer parte da estrutura do framework o código neles inseridos
+também são de minha autoria como:
+- Moeda em Models
+- Rotas em Routes
+- Arquivos de migrations em database/migrations
+- MoedaTest em tests
+
