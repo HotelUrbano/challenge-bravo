@@ -1,0 +1,38 @@
+{
+  "name": "challenge-bravo",
+  "version": "1.0.0",
+  "description": "Desafio hotel urbano",
+  "main": "index.js",
+  "scripts": {
+    "test:coverage": "MOCK_REDIS=true nyc --reporter=text --reporter=html --reporter=text-summary ./node_modules/mocha/bin/mocha $(find ./api -name '*.unit*.js') --exit",
+    "test": "MOCK_REDIS=true ./node_modules/mocha/bin/mocha  $(find ./api -name '*.unit*.js')",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorffernandes/challenge-bravo.git"
+  },
+  "author": "victorffernandes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorffernandes/challenge-bravo/issues"
+  },
+  "homepage": "https://github.com/victorffernandes/challenge-bravo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chai": "^4.3.4",
+    "express": "^4.17.1",
+    "glob": "^7.1.7",
+    "joi": "^17.4.0",
+    "mocha": "^9.0.1",
+    "mongoose": "^5.12.15",
+    "node-fetch": "^2.6.1",
+    "nyc": "^15.1.0",
+    "promise-redis": "0.0.5",
+    "sinon": "^11.1.1",
+    "sinon-chai": "^3.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
