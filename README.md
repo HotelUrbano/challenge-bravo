@@ -1,77 +1,142 @@
-# <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Bravo
+# Currencies' Conversion API (challenge-bravo)
 
-Construa uma API, que responda JSON, para conversão monetária. Ela deve ter uma moeda de lastro (USD) e fazer conversões entre diferentes moedas com cotações de verdade e atuais.
+A REST API for currencies' conversion using Node.js
 
-A API deve, originalmente, converter entre as seguintes moedas:
+## Getting Started
 
--   USD
--   BRL
--   EUR
--   BTC
--   ETH
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-Ex: USD para BRL, USD para BTC, ETH para BRL, etc...
+### Prerequisites
 
-A requisição deve receber como parâmetros: A moeda de origem, o valor a ser convertido e a moeda final.
+- Install [Node](https://nodejs.org/en/)
+- (Linux ONLY) Install [Docker Engine](https://docs.docker.com/engine/install/#server) and [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
+- (MacOS or Windows ONLY) Install [Docker Desktop](https://docs.docker.com/desktop/)
 
-Ex: `?from=BTC&to=EUR&amount=123.45`
+### Install and Run
 
-Construa também um endpoint para adicionar e remover moedas suportadas pela API, usando os verbos HTTP.
+To have a copy of this project up and running, follow the instructions below
 
-A API deve suportar conversão entre moedas verídicas e fictícias. Exemplo: BRL->HURB, HURB->ETH
+- First, download the repository or clone it with the provided URL
 
-"Moeda é o meio pelo qual são efetuadas as transações monetárias." (Wikipedia, 2021).
+- Navigate to the project's folder
 
-Sendo assim, é possível imaginar que novas moedas passem a existir ou deixem de existir, é possível também imaginar moedas fictícias como as de D&D sendo utilizadas nestas transações, como por exemplo quanto vale uma Peça de Ouro (D&D) em Real ou quanto vale a GTA$ 1 em Real.
+```cd ~/[PROJECTS-FOLDER]/```
 
-Vamos considerar a cotação da PSN onde GTA$ 1.250.000,00 custam R$ 83,50 claramente temos uma relação entre as moedas, logo é possível criar uma cotação. (Playstation Store, 2021).
+- With your Docker already configured and running, start the project with the command
 
-Ref: 
-Wikipedia [Site Institucional]. Disponível em: <https://pt.wikipedia.org/wiki/Moeda>. Acesso em: 28 abril 2021.
-Playstation Store [Loja Virtual]. Disponível em: <https://store.playstation.com/pt-br/product/UP1004-CUSA00419_00-GTAVCASHPACK000D>. Acesso em: 28 abril 2021.
+```docker-compose up -d```
 
-Você pode usar qualquer linguagem de programação para o desafio. Abaixo a lista de linguagens que nós aqui do HU temos mais afinidade:
+## How To Use
 
--   JavaScript (NodeJS)
--   Python
--   Go
--   Ruby
--   C++
--   PHP
+Once you start the project, the api base url will be `http://localhost:3001`
 
-## Requisitos
+### List all supported currencies
 
--   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github, faça todo desafio na branch **master** e não se esqueça de preencher o arquivo `pull-request.txt`. Tão logo termine seu desenvolvimento, adicione como colaborador o usuário `automator-hurb` no seu repositório e o deixe disponível por pelo menos 30 dias. **Não adicione o `automator-hurb` antes do término do desenvolvimento.**
-    -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
--   O código precisa rodar em macOS ou Ubuntu (preferencialmente como container Docker)
--   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
-    -   git clone \$seu-fork
-    -   cd \$seu-fork
-    -   comando para instalar dependências
-    -   comando para executar a aplicação
--   A API pode ser escrita com ou sem a ajuda de _frameworks_
-    -   Se optar por usar um _framework_ que resulte em _boilerplate code_, assinale no README qual pedaço de código foi escrito por você. Quanto mais código feito por você, mais conteúdo teremos para avaliar.
--   A API precisa suportar um volume de 1000 requisições por segundo em um teste de estresse.
+```
+// request
+GET:{{base_url}}/currency
 
-## Critério de avaliação
+// response
+{
+    "message": "Success",
+    "data": {
+        "list": [
+            "USD",
+            "BRL",
+            "EUR",
+            "BTC",
+            "ETH"
+        ]
+    }
+}
+```
 
--   **Organização do código**: Separação de módulos, view e model, back-end e front-end
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara?
--   **Cobertura de testes** (Não esperamos cobertura completa)
--   **Histórico de commits** (estrutura e qualidade)
--   **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
--   **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
+### Convert an amount from a currency to another
 
-## Dúvidas
+```
+// request
+GET:{{base_url}}/currency/convert?from=BRL&to=USD&amount=12.99
 
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-bravo/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
+// response
+{
+    "message": "Success",
+    "data": {
+        "amount": 2.59,
+        "currencyCode": "USD"
+    }
+}
+```
 
-Boa sorte e boa viagem! ;)
+### Add a new ficticious currency
 
-<p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
-</p>
+```
+// request
+POST:{{base_url}}/currency
+body: {
+    "currencyCode": "HURB",
+    "currencyQuote": 0.27
+}
+
+// response
+{
+    "message": "Successfully created",
+    "data": {
+        "currencyCode": "HURB",
+        "currencyQuote": 0.27
+    }
+}
+```
+
+### Add a new real currency
+
+```
+// request
+POST:{{base_url}}/currency
+body: {
+    "currencyCode": "EUR"
+}
+
+// response
+{
+    "message": "Successfully created",
+    "data": {
+        "currencyCode": "EUR"
+    }
+}
+```
+
+### Delete a currency
+
+```
+// request
+DELETE:{{base_url}}/currency/BRL
+
+// response
+{
+    "message": "Success",
+    "data": {
+        "currencyCode": "BRL"
+    }
+}
+```
+
+## Built With
+
+- [Express](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
+- [Jest](https://jestjs.io/) - JavaScript Testing Framework
+- [Yup](https://github.com/jquense/yup) - A JavaScript schema builder for value parsing and validation
+- [PostgreSQL](https://www.postgresql.org/) - The World's Most Advanced Open Source Relational Database
+
+## Authors
+
+- **Daniela Rocha** - _Initial work_ - [Daniela Rocha](https://github.com/danirocha)
+
+## Acknowledgments
+
+- Commits messages' convention from [here](https://github.com/pvdlg/conventional-commit-types)
+- Complete postman collection with response examples [here](https://github.com/danirocha/challenge-bravo/blob/main/docs/challenge_bravo_2021-06-30.postman_collection)
+
+### Commands that can help you cope with some problems:
+- `docker-compose down` - Stops all docker services that are running
+- `docker-compose logs` - Shows the logs of all running services
+- `docker ps -a` - Show status of all your Docker containers, even the stoped ones
