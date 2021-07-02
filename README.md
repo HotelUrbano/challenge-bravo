@@ -1,77 +1,59 @@
 # <img src="https://avatars1.githubusercontent.com/u/7063040?v=4&s=200.jpg" alt="HU" width="24" /> Desafio Bravo
 
-Construa uma API, que responda JSON, para conversão monetária. Ela deve ter uma moeda de lastro (USD) e fazer conversões entre diferentes moedas com cotações de verdade e atuais.
+##Escolha Técnica
+Versão do Python é a 3.8
+Versão do Django é a 3.2.5
+Versão do Django REST Framework é a 3.12.4
 
-A API deve, originalmente, converter entre as seguintes moedas:
+A aplicação foi desenvolvida com Django REST Framework
+O banco de dados em postgreSQL
+A documentação foi desenvolvida em Swagger
+O servidor de aplicação é ngnix e Gunicorn
+A aplicação roda em três containers Docker, "back" com o django REST Framework, servidor Gunicorn e todo o código da aplicação na porta 8000, um
+container "web" e ngnix na porta 80 e o container "postgres" para o banco de dados.
+Dentro do projeto existe o um diretório "app" com as configuraçãos da aplicação, um diretório "core" com as rotas e rotinas comuns, um diretório "coin"
+onde está o CRUD das moedas e um diretorio "convert" onde está a lógica da conversão de moedas.
 
--   USD
--   BRL
--   EUR
--   BTC
--   ETH
+##como a aplicação funciona
+Toda moeda precisa ter um lastro, neste caso o lastro padrão é o USD, portanto ao cadastrar uma nova moeda ela deve ser lastreada na moeda USD,
+as moedas podem ter lastros diferentes, mas pra isso é necessário informar qual vai ser o seu lastro no payload do post do cadastro.
 
-Ex: USD para BRL, USD para BTC, ETH para BRL, etc...
+exemplo do cadastro de uma moeda com lastro no USD:
+         {
+            "coin": "EURO",
+            "coin_initials": "EUR",
+            "amount_coint_bslt": 1,
+            "price": 1.18,
+            "country": "EUROPEN UNION",
+            "country_initials": "EU",
+            "bslt": "USD"
+        },
+Existe um exemplo de payload de cadastro no diretŕio "postman_payload", que poderá ser impotando para o seu Postman
 
-A requisição deve receber como parâmetros: A moeda de origem, o valor a ser convertido e a moeda final.
+OBS: Existem dois metodos de update, uma que atuliza uma lista de payload e outro que atualiza apenas uma moeda pelo seu id
 
-Ex: `?from=BTC&to=EUR&amount=123.45`
+#Documentação
+sh docke.sh
+Para ver a documentação da API acesse http://localhost:9000/
 
-Construa também um endpoint para adicionar e remover moedas suportadas pela API, usando os verbos HTTP.
+## Como iniciar a aplicação
+para iniciar a aplicação rode no terminal o comando "sh upDev.sh", este arquivo chama o docker-compose e sobe os containers docker
 
-A API deve suportar conversão entre moedas verídicas e fictícias. Exemplo: BRL->HURB, HURB->ETH
+Os container podem ser parados usando o comando sh stop.sh e iniado novamente com o comando sh start.sh, o comando upDev.sh cria e recria toda a estrutura de containers.
 
-"Moeda é o meio pelo qual são efetuadas as transações monetárias." (Wikipedia, 2021).
+OBS: Pode ser que seja necessário parar o postgres na sua maquina local ou outra aplicação que use as portas 5432 e 8000
 
-Sendo assim, é possível imaginar que novas moedas passem a existir ou deixem de existir, é possível também imaginar moedas fictícias como as de D&D sendo utilizadas nestas transações, como por exemplo quanto vale uma Peça de Ouro (D&D) em Real ou quanto vale a GTA$ 1 em Real.
+Os container podem demorar uns 20 segundos para subir e rodar a aplicação completa, mesmo com os conatainer em up, o Gunicor pode ainda estar subindo dentro do container.
 
-Vamos considerar a cotação da PSN onde GTA$ 1.250.000,00 custam R$ 83,50 claramente temos uma relação entre as moedas, logo é possível criar uma cotação. (Playstation Store, 2021).
+Apos subir a aplicação rode a requisição POST localhost:8000/api/v1/coin/create/ com as moedas inicias que podem ser importadas pelo arquivo no diretório
+postman_payload
 
-Ref: 
-Wikipedia [Site Institucional]. Disponível em: <https://pt.wikipedia.org/wiki/Moeda>. Acesso em: 28 abril 2021.
-Playstation Store [Loja Virtual]. Disponível em: <https://store.playstation.com/pt-br/product/UP1004-CUSA00419_00-GTAVCASHPACK000D>. Acesso em: 28 abril 2021.
+##rodar os testes
+sudo docker-compose exec back python3 manage.py test
 
-Você pode usar qualquer linguagem de programação para o desafio. Abaixo a lista de linguagens que nós aqui do HU temos mais afinidade:
+##O que faltou ou deveria melhorar
+Não possui sistema de autenticação
+Maior cobertura de testes
+Uma melhor organização dos container, separar o Gunicor em um container separado por exemplo
 
--   JavaScript (NodeJS)
--   Python
--   Go
--   Ruby
--   C++
--   PHP
 
-## Requisitos
-
--   Forkar esse desafio e criar o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um _pull request_.
-    -   Caso você tenha algum motivo para não submeter um _pull request_, crie um repositório privado no Github, faça todo desafio na branch **master** e não se esqueça de preencher o arquivo `pull-request.txt`. Tão logo termine seu desenvolvimento, adicione como colaborador o usuário `automator-hurb` no seu repositório e o deixe disponível por pelo menos 30 dias. **Não adicione o `automator-hurb` antes do término do desenvolvimento.**
-    -   Caso você tenha algum problema para criar o repositório privado, ao término do desafio preencha o arquivo chamado `pull-request.txt`, comprima a pasta do projeto - incluindo a pasta `.git` - e nos envie por email.
--   O código precisa rodar em macOS ou Ubuntu (preferencialmente como container Docker)
--   Para executar seu código, deve ser preciso apenas rodar os seguintes comandos:
-    -   git clone \$seu-fork
-    -   cd \$seu-fork
-    -   comando para instalar dependências
-    -   comando para executar a aplicação
--   A API pode ser escrita com ou sem a ajuda de _frameworks_
-    -   Se optar por usar um _framework_ que resulte em _boilerplate code_, assinale no README qual pedaço de código foi escrito por você. Quanto mais código feito por você, mais conteúdo teremos para avaliar.
--   A API precisa suportar um volume de 1000 requisições por segundo em um teste de estresse.
-
-## Critério de avaliação
-
--   **Organização do código**: Separação de módulos, view e model, back-end e front-end
--   **Clareza**: O README explica de forma resumida qual é o problema e como pode rodar a aplicação?
--   **Assertividade**: A aplicação está fazendo o que é esperado? Se tem algo faltando, o README explica o porquê?
--   **Legibilidade do código** (incluindo comentários)
--   **Segurança**: Existe alguma vulnerabilidade clara?
--   **Cobertura de testes** (Não esperamos cobertura completa)
--   **Histórico de commits** (estrutura e qualidade)
--   **UX**: A interface é de fácil uso e auto-explicativa? A API é intuitiva?
--   **Escolhas técnicas**: A escolha das bibliotecas, banco de dados, arquitetura, etc, é a melhor escolha para a aplicação?
-
-## Dúvidas
-
-Quaisquer dúvidas que você venha a ter, consulte as [_issues_](https://github.com/HurbCom/challenge-bravo/issues) para ver se alguém já não a fez e caso você não ache sua resposta, abra você mesmo uma nova issue!
-
-Boa sorte e boa viagem! ;)
-
-<p align="center">
-  <img src="ca.jpg" alt="Challange accepted" />
-</p>
