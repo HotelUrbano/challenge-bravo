@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:13.3
+    container_name: "database"
+    env_file:
+      - build/.env.db
+    networks:
+      - default
+    ports:
+      - "5432:5432"
+    extra_hosts:
+        - "host.docker.internal:172.17.0.1"
+    volumes:
+        - ./build/init_tables/001_create_init_tables.up.sql:/docker-entrypoint-initdb.d/001_create_init_tables.up.sql
+        - ./build/init_tables/001_create_init_tables.down.sql:/docker-entrypoint-initdb.d/001_create_init_tables.down.sql
+        - ./postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile-rest-api
+    container_name: "rest-api"
+    env_file: build/.env
+    depends_on:
+      - database
+    networks:
+      - default
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
